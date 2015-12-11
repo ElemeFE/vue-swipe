@@ -22,9 +22,9 @@ require('vue-swipe')
 
 | Option | Description |
 | ----- | ----- |
-| speed | Number(default: 300) the speed of animation. |
-| auto | Number(default: 3000) the speed of auto slide to next. |
-| continuous | Boolean (default:true) - create an infinite slider without endpoints |
+| speed | Number(default: 300) speed of animation. |
+| auto | Number(default: 3000) delay of auto slide. |
+| continuous | Boolean (default:true) - creates an infinite slider without endpoints |
 
 # License
 MIT
