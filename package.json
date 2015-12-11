@@ -1,0 +1,35 @@
+{
+  "name": "vue-swipe",
+  "version": "0.0.1",
+  "description": "A touch slider for vue.js.",
+  "main": "lib/index.js",
+  "scripts": {
+    "prepublish": "cp src/*.vue lib & node_modules/babel-cli/bin/babel.js src --out-dir lib"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/ElemeFE/vue-swipe.git"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "keywords": [
+    "swiper",
+    "slider",
+    "vue"
+  ],
+  "author": "long.zhang@ele.me",
+  "license": "MIT",
+  "peerDependencies": {
+    "vue": "^1.0.10"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.3.15",
+    "babel-core": "^6.3.15",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.3.13",
+    "webpack": "^1.12.9"
+  }
+}
