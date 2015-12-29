@@ -68,7 +68,7 @@
       animating = true;
       element.style.webkitTransition = '-webkit-transform ' + speed + 'ms ease-in-out';
 
-      once(element, 'transitionend', function() {
+      once(element, 'webkitTransitionEnd', function() {
         animating = false;
         element.style.webkitTransition = '';
         element.style.webkitTransform = '';
@@ -151,6 +151,9 @@
       },
 
       doAnimate(towards, options) {
+        if (this.$children.length === 0) return;
+        if (!options && this.$children.length < 2) return;
+
         var prevPage, nextPage, currentPage, pageWidth;
         var speed = this.speed || 300;
         var index = this.index;
@@ -303,6 +306,7 @@
 
         var offsetTop = dragState.currentTop - dragState.startTop;
         var offsetLeft = dragState.currentLeft - dragState.startLeft;
+        offsetLeft = Math.min(Math.max(-dragState.pageWidth + 1, offsetLeft), dragState.pageWidth - 1);
 
         if (dragState.prevPage) {
           translate(dragState.prevPage, offsetLeft - dragState.pageWidth);
@@ -325,6 +329,8 @@
         var index = this.index;
         var pageCount = this.pages.length;
 
+        if (dragDuration < 300 && dragState.currentLeft === undefined) return;
+
         if (dragDuration < 300 || Math.abs(offsetLeft) > pageWidth / 2) {
           towards = offsetLeft < 0 ? 'next' : 'prev';
         }
@@ -333,6 +339,10 @@
           if ((index === 0 && towards === 'prev') || (index === pageCount - 1 && towards === 'next')) {
             towards = null;
           }
+        }
+
+        if (this.$children.length < 2) {
+          towards = null;
         }
 
         this.doAnimate(towards, {
@@ -358,7 +368,7 @@
 
       if (this.auto > 0) {
         this.timer = setInterval(() => {
-          if (!this.dragging) {
+          if (!this.dragging && !animating) {
             this.next();
           }
         }, this.auto);
