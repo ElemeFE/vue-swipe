@@ -68,14 +68,21 @@
       animating = true;
       element.style.webkitTransition = '-webkit-transform ' + speed + 'ms ease-in-out';
 
-      once(element, 'webkitTransitionEnd', function() {
+      var called = false;
+
+      var transitionEndCallback = function() {
+        if (called) return;
+        called = true;
         animating = false;
         element.style.webkitTransition = '';
         element.style.webkitTransform = '';
         if (callback) {
           callback.apply(this, arguments);
         }
-      });
+      };
+
+      once(element, 'webkitTransitionEnd', transitionEndCallback);
+      setTimeout(transitionEndCallback, speed + 50); // webkitTransitionEnd maybe not fire on lower version android.
     } else {
       element.style.webkitTransition = '';
     }

@@ -1,6 +1,6 @@
 {
   "name": "vue-swipe",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "A touch slider for vue.js.",
   "main": "lib/index.js",
   "scripts": {
