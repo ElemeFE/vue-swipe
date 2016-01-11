@@ -50,7 +50,7 @@
     <div class="swipe-items-wrap" v-el:wrap>
       <slot></slot>
     </div>
-    <div class="swipe-indicators">
+    <div class="swipe-indicators" v-show="showIndicators">
       <div class="swipe-indicator" v-for="page in pages" :class="{ active: $index === index }"></div>
     </div>
   </div>
@@ -118,6 +118,11 @@
       continuous: {
         type: Boolean,
         default: true
+      },
+
+      showIndicators: {
+        type: Boolean,
+        default: true
       }
     },
 
@@ -145,6 +150,7 @@
       reInitPages() {
         var children = this.$children;
         var pages = [];
+        this.index = 0;
 
         children.forEach(function(child, index) {
           pages.push(child.$el);
