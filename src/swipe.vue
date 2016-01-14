@@ -390,6 +390,7 @@
       var element = this.$el;
 
       element.addEventListener('touchstart', (event) => {
+        event.preventDefault();
         if (animating) return;
         this.dragging = true;
         this.doOnTouchStart(event);
