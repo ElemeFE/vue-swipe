@@ -123,6 +123,11 @@
       showIndicators: {
         type: Boolean,
         default: true
+      },
+
+      prevent: {
+        type: Boolean,
+        default: false
       }
     },
 
@@ -317,7 +322,6 @@
         dragState.currentLeft = touch.pageX;
         dragState.currentTop = touch.pageY;
 
-        var offsetTop = dragState.currentTop - dragState.startTop;
         var offsetLeft = dragState.currentLeft - dragState.startLeft;
         offsetLeft = Math.min(Math.max(-dragState.pageWidth + 1, offsetLeft), dragState.pageWidth - 1);
 
@@ -338,9 +342,20 @@
         var towards = null;
 
         var offsetLeft = dragState.currentLeft - dragState.startLeft;
+        var offsetTop = dragState.currentTop - dragState.startTop;
         var pageWidth = dragState.pageWidth;
         var index = this.index;
         var pageCount = this.pages.length;
+
+        if (dragDuration < 300) {
+          let fireTap = Math.abs(offsetLeft) < 5 && Math.abs(offsetTop) < 5;
+          if (isNaN(offsetLeft) || isNaN(offsetTop)) {
+            fireTap = true;
+          }
+          if (fireTap) {
+            this.$children[this.index].$emit('tap');
+          }
+        }
 
         if (dragDuration < 300 && dragState.currentLeft === undefined) return;
 
@@ -390,7 +405,9 @@
       var element = this.$el;
 
       element.addEventListener('touchstart', (event) => {
-        event.preventDefault();
+        if (this.prevent) {
+          event.preventDefault();
+        }
         if (animating) return;
         this.dragging = true;
         this.doOnTouchStart(event);

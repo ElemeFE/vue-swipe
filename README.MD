@@ -26,6 +26,7 @@ require('vue-swipe')
 | auto | Number(default: 3000) delay of auto slide. |
 | continuous | Boolean (default:true) - creates an infinite slider without endpoints |
 | showIndicators | Boolean (default:true) - show indicators on slider bottom. |
+| prevent | Boolean (default:false) - preventDefault when touch start, useful for some lower version Android Browser(4.2 etc). |
 
 # License
 MIT
