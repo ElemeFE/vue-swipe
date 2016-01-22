@@ -10,6 +10,10 @@
       this.$dispatch('swipeItemCreated', this);
     },
 
+    detached() {
+      this.$dispatch('swipeItemDestroyed', this);
+    },
+
     destroyed() {
       this.$dispatch('swipeItemDestroyed', this);
     }

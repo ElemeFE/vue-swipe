@@ -160,6 +160,8 @@
         children.forEach(function(child, index) {
           pages.push(child.$el);
 
+          removeClass(child.$el, 'active');
+
           if (index === 0) {
             addClass(child.$el, 'active');
           }
@@ -172,7 +174,7 @@
         if (this.$children.length === 0) return;
         if (!options && this.$children.length < 2) return;
 
-        var prevPage, nextPage, currentPage, pageWidth;
+        var prevPage, nextPage, currentPage, pageWidth, offsetLeft;
         var speed = this.speed || 300;
         var index = this.index;
         var pages = this.pages;
@@ -204,6 +206,7 @@
           currentPage = options.currentPage;
           nextPage = options.nextPage;
           pageWidth = options.pageWidth;
+          offsetLeft = options.offsetLeft;
         }
 
         var newIndex;
@@ -257,11 +260,20 @@
             }
           } else {
             translate(currentPage, 0, speed, callback);
-            if (prevPage) {
-              translate(prevPage, pageWidth * -1, speed);
-            }
-            if (nextPage) {
-              translate(nextPage, pageWidth, speed);
+            if (typeof offsetLeft !== 'undefined') {
+              if (prevPage && offsetLeft > 0) {
+                translate(prevPage, pageWidth * -1, speed);
+              }
+              if (nextPage && offsetLeft < 0) {
+                translate(nextPage, pageWidth, speed);
+              }
+            } else {
+              if (prevPage) {
+                translate(prevPage, pageWidth * -1, speed);
+              }
+              if (nextPage) {
+                translate(nextPage, pageWidth, speed);
+              }
             }
           }
         }, 10);
@@ -276,9 +288,8 @@
       },
 
       doOnTouchStart: function(event) {
-        var swipe = this;
-        var element = swipe.$el;
-        var dragState = swipe.dragState;
+        var element = this.$el;
+        var dragState = this.dragState;
         var touch = event.touches[0];
 
         dragState.startTime = new Date();
@@ -315,8 +326,7 @@
       },
 
       doOnTouchMove: function(event) {
-        var swipe = this;
-        var dragState = swipe.dragState;
+        var dragState = this.dragState;
         var touch = event.touches[0];
 
         dragState.currentLeft = touch.pageX;
@@ -325,18 +335,19 @@
         var offsetLeft = dragState.currentLeft - dragState.startLeft;
         offsetLeft = Math.min(Math.max(-dragState.pageWidth + 1, offsetLeft), dragState.pageWidth - 1);
 
-        if (dragState.prevPage) {
+        var towards = offsetLeft < 0 ? 'next' : 'prev';
+
+        if (dragState.prevPage && towards === 'prev') {
           translate(dragState.prevPage, offsetLeft - dragState.pageWidth);
         }
         translate(dragState.dragPage, offsetLeft);
-        if (dragState.nextPage) {
+        if (dragState.nextPage && towards === 'next') {
           translate(dragState.nextPage, offsetLeft + dragState.pageWidth);
         }
       },
 
       doOnTouchEnd: function() {
-        var swipe = this;
-        var dragState = swipe.dragState;
+        var dragState = this.dragState;
 
         var dragDuration = new Date() - dragState.startTime;
         var towards = null;
@@ -374,6 +385,7 @@
         }
 
         this.doAnimate(towards, {
+          offsetLeft: offsetLeft,
           pageWidth: dragState.pageWidth,
           prevPage: dragState.prevPage,
           currentPage: dragState.dragPage,
