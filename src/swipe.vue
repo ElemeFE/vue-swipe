@@ -101,7 +101,7 @@
         pages: [],
         timer: null,
         reInitTimer: null
-      }
+      };
     },
 
     props: {

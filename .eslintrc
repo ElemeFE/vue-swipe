@@ -1,0 +1,20 @@
+ecmaFeatures:
+  modules: true
+
+rules:
+  indent: [ 1, 2, SwitchCase: 1 ]
+  quotes: [ 1, single ]
+  linebreak-style: [ 1, unix ]
+  semi: [ 1, always ]
+  no-undef: [ 1 ]
+  no-console: [ 0 ]
+  no-unused-vars: [ 1 ]
+  space-infix-ops: [ 1 ]
+  no-multi-spaces: [ 1 ]
+  no-fallthrough: [ 0 ]
+
+env:
+  es6: true
+  browser: true
+
+extends: 'eslint:recommended'
