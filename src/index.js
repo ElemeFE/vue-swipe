@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Swipe from './swipe.vue';
+import SwipeItem from './swipe-item.vue';
 
-Vue.component('Swipe', require('./swipe.vue'));
-Vue.component('SwipeItem', require('./swipe-item.vue'));
+export { Swipe, SwipeItem };

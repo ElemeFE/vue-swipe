@@ -2,13 +2,35 @@
 
 vue-swipe is a touch slider for vue.js.
 
+# Install
+
+```bash
+$ npm install vue-swipe
+```
+
 # Usage
 
-Import this component to your project.
+Import components to your project.
 
 ```JavaScript
-require('vue-swipe')
+// in ES6 modules
+import { Swipe, SwipeItem } from 'vue-swipe';
+
+// in CommonJS
+const { Swipe, SwipeItem } = require('vue-swipe');
+
+// in Global variable
+const { Swipe, SwipeItem } = VueSwipe;
 ```
+
+And register components.
+
+```javascript
+Vue.component('swipe', Swipe);
+Vue.component('swipe-item', SwipeItem);
+```
+
+Work on a Vue instance.
 
 ```HTML
 <swipe>
@@ -20,6 +42,8 @@ require('vue-swipe')
 
 # Options
 
+Here list Props on swipe component
+
 | Option | Description |
 | ----- | ----- |
 | speed | Number(default: 300) speed of animation. |
@@ -27,6 +51,20 @@ require('vue-swipe')
 | continuous | Boolean (default:true) - creates an infinite slider without endpoints |
 | showIndicators | Boolean (default:true) - show indicators on slider bottom. |
 | prevent | Boolean (default:false) - preventDefault when touch start, useful for some lower version Android Browser(4.2 etc). |
+
+# Develop
+
+Coding with watching and hot-reload.
+
+```bash
+$ npm run dev
+```
+
+Develop on real remote device.
+
+```bash
+$ npm run remote-dev {{ YOUR IP ADDRESS }}
+```
 
 # License
 MIT

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui, maximum-scale=1.0, minimum-scale=1.0">
+  <title>vue-swipe examples</title>
+  <link rel="stylesheet" href="/lib/vue-swipe.css" charset="utf-8">
+  <style>
+    .swipe {
+      height: 200px;
+      color: #fff;
+    }
+    .page1 {
+      background-color: blue;
+    }
+    .page2 {
+      background-color: yellow;
+      color: #000;
+    }
+    .page3 {
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+  <swipe>
+    <swipe-item class="page1">SUPER BLUE!!</swipe-item>
+    <swipe-item class="page2">SUPER YELLOW!!</swipe-item>
+    <swipe-item class="page3">SUPER RED!!</swipe-item>
+  </swipe>
+  <swipe :speed="900" :auto="0" :show-indicators="false">
+    <swipe-item class="page1">SUPER BLUE!!</swipe-item>
+    <swipe-item class="page2">SUPER YELLOW!!</swipe-item>
+    <swipe-item class="page3">SUPER RED!!</swipe-item>
+  </swipe>
+  <script src="../node_modules/vue/dist/vue.js"></script>
+  <script src="/lib/vue-swipe.js"></script>
+  <script type="text/javascript" src="/example/dist/build.js"></script>
+</body>
+</html>
