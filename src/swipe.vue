@@ -125,6 +125,11 @@
         default: true
       },
 
+      noDragWhenSingle: {
+        type: Boolean,
+        default: true
+      },
+
       prevent: {
         type: Boolean,
         default: false
@@ -414,6 +419,10 @@
         }, this.auto);
       }
 
+      this.reInitPages();
+
+      if (this.$children.length === 1 && this.noDragWhenSingle) return;
+
       var element = this.$el;
 
       element.addEventListener('touchstart', (event) => {
@@ -435,8 +444,6 @@
         this.doOnTouchEnd(event);
         this.dragging = false;
       });
-
-      this.reInitPages();
     }
   };
 </script>

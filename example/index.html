@@ -10,30 +10,42 @@
     .swipe {
       height: 200px;
       color: #fff;
+      font-size: 30px;
+      text-align: center;
     }
     .page1 {
-      background-color: blue;
+      background-color: #0089dc;
+      color: #fff;
     }
     .page2 {
-      background-color: yellow;
+      background-color: #ffd705;
       color: #000;
     }
     .page3 {
-      background-color: red;
+      background-color: #ff2d4b;
+      color: #fff;
     }
   </style>
 </head>
 <body>
   <swipe>
-    <swipe-item class="page1">SUPER BLUE!!</swipe-item>
-    <swipe-item class="page2">SUPER YELLOW!!</swipe-item>
-    <swipe-item class="page3">SUPER RED!!</swipe-item>
+    <swipe-item class="page1">饿了么</swipe-item>
+    <swipe-item class="page2">美团</swipe-item>
+    <swipe-item class="page3">百度</swipe-item>
   </swipe>
+
+  <br>
+
   <swipe :speed="900" :auto="0" :show-indicators="false">
-    <swipe-item class="page1">SUPER BLUE!!</swipe-item>
-    <swipe-item class="page2">SUPER YELLOW!!</swipe-item>
-    <swipe-item class="page3">SUPER RED!!</swipe-item>
+    <swipe-item class="page1">SINGLE PAGE</swipe-item>
   </swipe>
+
+  <br>
+
+  <swipe :speed="900" :auto="0" :show-indicators="false" :no-drag="true">
+    <swipe-item class="page1">SINGLE PAGE</swipe-item>
+  </swipe>
+
   <script src="../node_modules/vue/dist/vue.js"></script>
   <script src="/lib/vue-swipe.js"></script>
   <script type="text/javascript" src="/example/dist/build.js"></script>
