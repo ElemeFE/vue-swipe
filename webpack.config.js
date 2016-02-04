@@ -6,7 +6,7 @@ options.output = {
   library: 'VueSwipe',
   libraryTarget: 'umd',
   filename: 'vue-swipe.js',
-  path: './lib'
+  path: './dist'
 };
 options.externals = {
   vue: 'Vue'
