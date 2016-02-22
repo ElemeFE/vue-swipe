@@ -100,7 +100,8 @@
         index: 0,
         pages: [],
         timer: null,
-        reInitTimer: null
+        reInitTimer: null,
+        noDrag: false
       };
     },
 
@@ -159,6 +160,8 @@
     methods: {
       reInitPages() {
         var children = this.$children;
+        this.noDrag = children.length === 1 && this.noDragWhenSingle;
+
         var pages = [];
         this.index = 0;
 
@@ -293,6 +296,8 @@
       },
 
       doOnTouchStart: function(event) {
+        if (this.noDrag) return;
+
         var element = this.$el;
         var dragState = this.dragState;
         var touch = event.touches[0];
@@ -331,6 +336,8 @@
       },
 
       doOnTouchMove: function(event) {
+        if (this.noDrag) return;
+
         var dragState = this.dragState;
         var touch = event.touches[0];
 
@@ -352,6 +359,8 @@
       },
 
       doOnTouchEnd: function() {
+        if (this.noDrag) return;
+
         var dragState = this.dragState;
 
         var dragDuration = new Date() - dragState.startTime;
@@ -420,8 +429,6 @@
       }
 
       this.reInitPages();
-
-      if (this.$children.length === 1 && this.noDragWhenSingle) return;
 
       var element = this.$el;
 
