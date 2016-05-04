@@ -203,7 +203,7 @@
           }
           if (prevPage) {
             prevPage.style.display = 'block';
-            translate(nextPage, -pageWidth);
+            translate(prevPage, -pageWidth);
           }
           if (nextPage) {
             nextPage.style.display = 'block';
