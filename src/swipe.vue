@@ -415,6 +415,10 @@
         clearInterval(this.timer);
         this.timer = null;
       }
+      if (this.reInitTimer) {
+        clearTimeout(this.reInitTimer);
+        this.reInitTimer = null;
+      }
     },
 
     ready() {
