@@ -13,6 +13,7 @@ $ npm install vue-swipe
 Import components to your project.
 
 ```JavaScript
+require('vue-swipe/dist/vue-swipe.css');
 // in ES6 modules
 import { Swipe, SwipeItem } from 'vue-swipe';
 
