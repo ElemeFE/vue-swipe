@@ -8,12 +8,14 @@ vue-swipe is a touch slider for vue.js.
 $ npm install vue-swipe
 ```
 
-# Usage
+# Install
 
-Import components to your project.
+## Import using module
+Import components to your project:
 
 ```JavaScript
 require('vue-swipe/dist/vue-swipe.css');
+
 // in ES6 modules
 import { Swipe, SwipeItem } from 'vue-swipe';
 
@@ -24,21 +26,67 @@ const { Swipe, SwipeItem } = require('vue-swipe');
 const { Swipe, SwipeItem } = VueSwipe;
 ```
 
-And register components.
+And register components:
 
 ```javascript
 Vue.component('swipe', Swipe);
 Vue.component('swipe-item', SwipeItem);
 ```
 
-Work on a Vue instance.
+## Import using script tag
+
+``` HTML
+<link rel="stylesheet" href="../node-modules/vue-swipe/dist/vue-swipe.css" charset="utf-8">
+<script src="../node-modules/vue-swipe/dist/vue-swipe.js"></script>
+```
+
+```JavaScript
+const vueSwipe = VueSwipe.Swipe;
+const vueSwipeItem = VueSwipe.SwipeItem;
+
+new Vue({
+  el: 'body',
+  components: {
+    'swipe': vueSwipe,
+    'swipe-item': vueSwipeItem
+  }
+});
+```
+
+# Usage
+
+Work on a Vue instance:
 
 ```HTML
-<swipe>
-  <swipe-item class="page1"></swipe-item>
-  <swipe-item class="page2"></swipe-item>
-  <swipe-item class="page3"></swipe-item>
+<swipe class="my-swipe">
+  <swipe-item class="slide1"></swipe-item>
+  <swipe-item class="slide2"></swipe-item>
+  <swipe-item class="slide3"></swipe-item>
 </swipe>
+```
+
+```CSS
+.my-swipe {
+  height: 200px;
+  color: #fff;
+  font-size: 30px;
+  text-align: center;
+}
+
+.slide1 {
+  background-color: #0089dc;
+  color: #fff;
+}
+
+.slide2 {
+  background-color: #ffd705;
+  color: #000;
+}
+
+.slide3 {
+  background-color: #ff2d4b;
+  color: #fff;
+}
 ```
 
 # Options

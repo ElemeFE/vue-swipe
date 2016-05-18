@@ -5,49 +5,49 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui, maximum-scale=1.0, minimum-scale=1.0">
   <title>vue-swipe examples</title>
-  <link rel="stylesheet" href="/lib/vue-swipe.css" charset="utf-8">
+  <link rel="stylesheet" href="/dist/vue-swipe.css" charset="utf-8">
   <style>
-    .swipe {
+    .my-swipe {
       height: 200px;
       color: #fff;
       font-size: 30px;
       text-align: center;
     }
-    .page1 {
+    .slide1 {
       background-color: #0089dc;
       color: #fff;
     }
-    .page2 {
+    .slide2 {
       background-color: #ffd705;
       color: #000;
     }
-    .page3 {
+    .slide3 {
       background-color: #ff2d4b;
       color: #fff;
     }
   </style>
 </head>
 <body>
-  <swipe>
-    <swipe-item class="page1">饿了么</swipe-item>
-    <swipe-item class="page2">美团</swipe-item>
-    <swipe-item class="page3">百度</swipe-item>
+  <swipe class="my-swipe">
+    <swipe-item class="slide1">Slide1</swipe-item>
+    <swipe-item class="slide2">Slide2</swipe-item>
+    <swipe-item class="slide3">Slide3</swipe-item>
   </swipe>
 
   <br>
 
-  <swipe :speed="900" :auto="0" :show-indicators="false">
-    <swipe-item class="page1">SINGLE PAGE</swipe-item>
+  <swipe class="my-swipe" :speed="900" :auto="0" :show-indicators="false">
+    <swipe-item class="slide1">SINGLE SLIDE</swipe-item>
   </swipe>
 
   <br>
 
-  <swipe :speed="900" :auto="0" :show-indicators="false" :no-drag="true">
-    <swipe-item class="page1">SINGLE PAGE</swipe-item>
+  <swipe class="my-swipe" :speed="900" :auto="0" :show-indicators="false" :no-drag="true">
+    <swipe-item class="slide1">SINGLE SLIDE</swipe-item>
   </swipe>
 
   <script src="../node_modules/vue/dist/vue.js"></script>
-  <script src="/lib/vue-swipe.js"></script>
-  <script type="text/javascript" src="/example/dist/build.js"></script>
+  <script src="/dist/vue-swipe.js"></script>
+  <script type="text/javascript" src="/example/dist/example.js"></script>
 </body>
 </html>

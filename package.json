@@ -1,8 +1,8 @@
 {
   "name": "vue-swipe",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "description": "A touch slider for vue.js.",
-  "main": "lib/vue-swipe.js",
+  "main": "dist/vue-swipe.js",
   "scripts": {
     "dev": "webpack-dev-server --config ./webpack.example.config.js --inline --hot",
     "remote-dev": "npm run dev --host",
