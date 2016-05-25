@@ -59,35 +59,6 @@
 <script type="text/ecmascript-6">
   import { once, addClass, removeClass } from 'wind-dom';
 
-  var animating = false;
-
-  var translate = function(element, offset, speed, callback) {
-    element.style.webkitTransform = `translate3d(${offset}px, 0, 0)`;
-
-    if (speed) {
-      animating = true;
-      element.style.webkitTransition = '-webkit-transform ' + speed + 'ms ease-in-out';
-
-      var called = false;
-
-      var transitionEndCallback = function() {
-        if (called) return;
-        called = true;
-        animating = false;
-        element.style.webkitTransition = '';
-        element.style.webkitTransform = '';
-        if (callback) {
-          callback.apply(this, arguments);
-        }
-      };
-
-      once(element, 'webkitTransitionEnd', transitionEndCallback);
-      setTimeout(transitionEndCallback, speed + 50); // webkitTransitionEnd maybe not fire on lower version android.
-    } else {
-      element.style.webkitTransition = '';
-    }
-  };
-
   export default {
     created() {
       this.dragState = {};
@@ -97,6 +68,8 @@
       return {
         ready: false,
         dragging: false,
+        userScrolling: false,
+        animating: false,
         index: 0,
         pages: [],
         timer: null,
@@ -158,6 +131,33 @@
     },
 
     methods: {
+      translate(element, offset, speed, callback) {
+        if (speed) {
+          this.animating = true;
+          element.style.webkitTransition = '-webkit-transform ' + speed + 'ms ease-in-out';
+          setTimeout(() => element.style.webkitTransform = `translate3d(${offset}px, 0, 0)`, 50);
+
+          var called = false;
+
+          var transitionEndCallback = () => {
+            if (called) return;
+            called = true;
+            this.animating = false;
+            element.style.webkitTransition = '';
+            element.style.webkitTransform = '';
+            if (callback) {
+              callback.apply(this, arguments);
+            }
+          };
+
+          once(element, 'webkitTransitionEnd', transitionEndCallback);
+          setTimeout(transitionEndCallback, speed + 100); // webkitTransitionEnd maybe not fire on lower version android.
+        } else {
+          element.style.webkitTransition = '';
+          element.style.webkitTransform = `translate3d(${offset}px, 0, 0)`;
+        }
+      },
+
       reInitPages() {
         var children = this.$children;
         this.noDrag = children.length === 1 && this.noDragWhenSingle;
@@ -203,11 +203,11 @@
           }
           if (prevPage) {
             prevPage.style.display = 'block';
-            translate(prevPage, -pageWidth);
+            this.translate(prevPage, -pageWidth);
           }
           if (nextPage) {
             nextPage.style.display = 'block';
-            translate(nextPage, pageWidth);
+            this.translate(nextPage, pageWidth);
           }
         } else {
           prevPage = options.prevPage;
@@ -257,30 +257,30 @@
 
         setTimeout(() => {
           if (towards === 'next') {
-            translate(currentPage, -pageWidth, speed, callback);
+            this.translate(currentPage, -pageWidth, speed, callback);
             if (nextPage) {
-              translate(nextPage, 0, speed);
+              this.translate(nextPage, 0, speed);
             }
           } else if (towards === 'prev') {
-            translate(currentPage, pageWidth, speed, callback);
+            this.translate(currentPage, pageWidth, speed, callback);
             if (prevPage) {
-              translate(prevPage, 0, speed);
+              this.translate(prevPage, 0, speed);
             }
           } else {
-            translate(currentPage, 0, speed, callback);
+            this.translate(currentPage, 0, speed, callback);
             if (typeof offsetLeft !== 'undefined') {
               if (prevPage && offsetLeft > 0) {
-                translate(prevPage, pageWidth * -1, speed);
+                this.translate(prevPage, pageWidth * -1, speed);
               }
               if (nextPage && offsetLeft < 0) {
-                translate(nextPage, pageWidth, speed);
+                this.translate(nextPage, pageWidth, speed);
               }
             } else {
               if (prevPage) {
-                translate(prevPage, pageWidth * -1, speed);
+                this.translate(prevPage, pageWidth * -1, speed);
               }
               if (nextPage) {
-                translate(nextPage, pageWidth, speed);
+                this.translate(nextPage, pageWidth, speed);
               }
             }
           }
@@ -305,6 +305,7 @@
         dragState.startTime = new Date();
         dragState.startLeft = touch.pageX;
         dragState.startTop = touch.pageY;
+        dragState.startTopAbsolute = touch.clientY;
 
         dragState.pageWidth = element.offsetWidth;
         dragState.pageHeight = element.offsetHeight;
@@ -343,18 +344,30 @@
 
         dragState.currentLeft = touch.pageX;
         dragState.currentTop = touch.pageY;
+        dragState.currentTopAbsolute = touch.clientY;
 
         var offsetLeft = dragState.currentLeft - dragState.startLeft;
+        var offsetTop = dragState.currentTopAbsolute - dragState.startTopAbsolute;
+
+        var distanceX = Math.abs(offsetLeft);
+        var distanceY = Math.abs(offsetTop);
+        if (distanceX < 5 || (distanceX >= 5 && distanceY >= 1.73 * distanceX)) {
+          this.userScrolling = true;
+          return;
+        } else {
+          this.userScrolling = false;
+          event.preventDefault();
+        }
         offsetLeft = Math.min(Math.max(-dragState.pageWidth + 1, offsetLeft), dragState.pageWidth - 1);
 
         var towards = offsetLeft < 0 ? 'next' : 'prev';
 
         if (dragState.prevPage && towards === 'prev') {
-          translate(dragState.prevPage, offsetLeft - dragState.pageWidth);
+          this.translate(dragState.prevPage, offsetLeft - dragState.pageWidth);
         }
-        translate(dragState.dragPage, offsetLeft);
+        this.translate(dragState.dragPage, offsetLeft);
         if (dragState.nextPage && towards === 'next') {
-          translate(dragState.nextPage, offsetLeft + dragState.pageWidth);
+          this.translate(dragState.nextPage, offsetLeft + dragState.pageWidth);
         }
       },
 
@@ -426,7 +439,7 @@
 
       if (this.auto > 0) {
         this.timer = setInterval(() => {
-          if (!this.dragging && !animating) {
+          if (!this.dragging && !this.animating) {
             this.next();
           }
         }, this.auto);
@@ -440,8 +453,9 @@
         if (this.prevent) {
           event.preventDefault();
         }
-        if (animating) return;
+        if (this.animating) return;
         this.dragging = true;
+        this.userScrolling = false;
         this.doOnTouchStart(event);
       });
 
@@ -451,6 +465,11 @@
       });
 
       element.addEventListener('touchend', (event) => {
+        if (this.userScrolling) {
+          this.dragging = false;
+          this.dragState = {};
+          return;
+        }
         if (!this.dragging) return;
         this.doOnTouchEnd(event);
         this.dragging = false;
