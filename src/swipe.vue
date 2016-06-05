@@ -60,6 +60,8 @@
   import { once, addClass, removeClass } from 'wind-dom';
 
   export default {
+    name: 'mt-swipe',
+
     created() {
       this.dragState = {};
     },
