@@ -2,6 +2,7 @@
   .swipe {
     overflow: hidden;
     position: relative;
+    height: 100%;
   }
 
   .swipe-items-wrap {
