@@ -2,7 +2,7 @@ const vueSwipe = VueSwipe.Swipe;
 const vueSwipeItem = VueSwipe.SwipeItem;
 
 new Vue({
-  el: 'body',
+  el: '#container',
   components: {
     'swipe': vueSwipe,
     'swipe-item': vueSwipeItem

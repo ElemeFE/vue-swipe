@@ -1,5 +1,5 @@
 <template>
-  <div class="swipe-item">
+  <div class="mint-swipe-item">
     <slot></slot>
   </div>
 </template>
@@ -8,16 +8,12 @@
   export default {
     name: 'mt-swipe-item',
 
-    ready() {
-      this.$dispatch('swipeItemCreated', this);
-    },
-
-    detached() {
-      this.$dispatch('swipeItemDestroyed', this);
+    mounted() {
+      this.$parent && this.$parent.swipeItemCreated(this);
     },
 
     destroyed() {
-      this.$dispatch('swipeItemDestroyed', this);
+      this.$parent && this.$parent.swipeItemDestroyed(this);
     }
   };
 </script>

@@ -1,37 +1,35 @@
 <style>
-  .swipe {
+  .mint-swipe {
     overflow: hidden;
     position: relative;
     height: 100%;
   }
-
-  .swipe-items-wrap {
+  .mint-swipe-items-wrap {
     position: relative;
     overflow: hidden;
     height: 100%;
   }
-
-  .swipe-items-wrap > div {
+  .mint-swipe-items-wrap > div {
     position: absolute;
+    -webkit-transform: translateX(-100%);
     transform: translateX(-100%);
     width: 100%;
     height: 100%;
-    display: none;
+    display: none
   }
-
-  .swipe-items-wrap > div.active {
+  .mint-swipe-items-wrap > div.is-active {
     display: block;
+    -webkit-transform: none;
     transform: none;
   }
-
-  .swipe-indicators {
+  .mint-swipe-indicators {
     position: absolute;
     bottom: 10px;
     left: 50%;
+    -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
   }
-
-  .swipe-indicator {
+  .mint-swipe-indicator {
     width: 8px;
     height: 8px;
     display: inline-block;
@@ -40,25 +38,27 @@
     opacity: 0.2;
     margin: 0 3px;
   }
-
-  .swipe-indicator.active {
+  .mint-swipe-indicator.is-active {
     background: #fff;
   }
 </style>
 
 <template>
-  <div class="swipe">
-    <div class="swipe-items-wrap" v-el:wrap>
+  <div class="mint-swipe">
+    <div class="mint-swipe-items-wrap" ref="wrap">
       <slot></slot>
     </div>
-    <div class="swipe-indicators" v-show="showIndicators">
-      <div class="swipe-indicator" v-for="page in pages" :class="{ active: $index === index }"></div>
+    <div class="mint-swipe-indicators" v-show="showIndicators">
+      <div class="mint-swipe-indicator"
+           v-for="(page, $index) in pages"
+           :class="{ 'is-active': $index === index }"></div>
     </div>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
-  import { once, addClass, removeClass } from 'wind-dom';
+<script>
+  import { once } from 'wind-dom/src/event';
+  import { addClass, removeClass } from 'wind-dom/src/class';
 
   export default {
     name: 'mt-swipe',
@@ -113,7 +113,7 @@
       }
     },
 
-    events: {
+    methods: {
       swipeItemCreated() {
         if (!this.ready) return;
 
@@ -123,22 +123,22 @@
         }, 100);
       },
 
-      swipeItemDestroyed(){
+      swipeItemDestroyed() {
         if (!this.ready) return;
 
         clearTimeout(this.reInitTimer);
         this.reInitTimer = setTimeout(() => {
           this.reInitPages();
         }, 100);
-      }
-    },
+      },
 
-    methods: {
       translate(element, offset, speed, callback) {
         if (speed) {
           this.animating = true;
           element.style.webkitTransition = '-webkit-transform ' + speed + 'ms ease-in-out';
-          setTimeout(() => element.style.webkitTransform = `translate3d(${offset}px, 0, 0)`, 50);
+          setTimeout(() => {
+            element.style.webkitTransform = `translate3d(${offset}px, 0, 0)`;
+          }, 50);
 
           var called = false;
 
@@ -171,10 +171,10 @@
         children.forEach(function(child, index) {
           pages.push(child.$el);
 
-          removeClass(child.$el, 'active');
+          removeClass(child.$el, 'is-active');
 
           if (index === 0) {
-            addClass(child.$el, 'active');
+            addClass(child.$el, 'is-active');
           }
         });
 
@@ -243,8 +243,8 @@
         var callback = () => {
           if (newIndex !== undefined) {
             var newPage = this.$children[newIndex].$el;
-            removeClass(oldPage, 'active');
-            addClass(newPage, 'active');
+            removeClass(oldPage, 'is-active');
+            addClass(newPage, 'is-active');
 
             this.index = newIndex;
           }
@@ -298,7 +298,7 @@
         this.doAnimate('prev');
       },
 
-      doOnTouchStart: function(event) {
+      doOnTouchStart(event) {
         if (this.noDrag) return;
 
         var element = this.$el;
@@ -339,7 +339,7 @@
         }
       },
 
-      doOnTouchMove: function(event) {
+      doOnTouchMove(event) {
         if (this.noDrag) return;
 
         var dragState = this.dragState;
@@ -374,7 +374,7 @@
         }
       },
 
-      doOnTouchEnd: function() {
+      doOnTouchEnd() {
         if (this.noDrag) return;
 
         var dragState = this.dragState;
@@ -437,7 +437,7 @@
       }
     },
 
-    ready() {
+    mounted() {
       this.ready = true;
 
       if (this.auto > 0) {

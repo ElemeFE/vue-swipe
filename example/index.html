@@ -28,23 +28,25 @@
   </style>
 </head>
 <body>
-  <swipe class="my-swipe">
-    <swipe-item class="slide1">Slide1</swipe-item>
-    <swipe-item class="slide2">Slide2</swipe-item>
-    <swipe-item class="slide3">Slide3</swipe-item>
-  </swipe>
-
-  <br>
-
-  <swipe class="my-swipe" :speed="900" :auto="0" :show-indicators="false">
-    <swipe-item class="slide1">SINGLE SLIDE</swipe-item>
-  </swipe>
-
-  <br>
-
-  <swipe class="my-swipe" :speed="900" :auto="0" :show-indicators="false" :no-drag="true">
-    <swipe-item class="slide1">SINGLE SLIDE</swipe-item>
-  </swipe>
+  <div id="container">
+    <swipe class="my-swipe">
+      <swipe-item class="slide1">Slide1</swipe-item>
+      <swipe-item class="slide2">Slide2</swipe-item>
+      <swipe-item class="slide3">Slide3</swipe-item>
+    </swipe>
+  
+    <br>
+  
+    <swipe class="my-swipe" :speed="900" :auto="0" :show-indicators="false">
+      <swipe-item class="slide1">SINGLE SLIDE</swipe-item>
+    </swipe>
+  
+    <br>
+  
+    <swipe class="my-swipe" :speed="900" :auto="0" :show-indicators="false" :no-drag="true">
+      <swipe-item class="slide1">SINGLE SLIDE</swipe-item>
+    </swipe>
+  </div>
 
   <script src="../node_modules/vue/dist/vue.js"></script>
   <script src="/dist/vue-swipe.js"></script>
