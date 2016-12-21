@@ -100,6 +100,7 @@ Here list Props on swipe component
 | continuous | Boolean (default:true) - creates an infinite slider without endpoints |
 | showIndicators | Boolean (default:true) - show indicators on slider bottom. |
 | prevent | Boolean (default:false) - preventDefault when touch start, useful for some lower version Android Browser(4.2 etc). |
+| propagation | Boolean (default:false) - solve nesting. |
 
 # Develop
 
