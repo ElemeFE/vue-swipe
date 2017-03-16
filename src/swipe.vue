@@ -8,6 +8,8 @@
     position: relative;
     overflow: hidden;
     height: 100%;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0)
   }
   .mint-swipe-items-wrap > div {
     position: absolute;
