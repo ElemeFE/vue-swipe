@@ -249,6 +249,8 @@
             addClass(newPage, 'is-active');
 
             this.index = newIndex;
+
+            this.$emit('change', newIndex, index);
           }
 
           if (prevPage) {

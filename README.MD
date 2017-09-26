@@ -90,7 +90,7 @@ Work on a Vue instance:
 ```
 
 # Options
-
+## Attributes
 Here list Props on swipe component
 
 | Option | Description |
@@ -99,7 +99,14 @@ Here list Props on swipe component
 | auto | Number(default: 3000) delay of auto slide. |
 | continuous | Boolean (default:true) - creates an infinite slider without endpoints |
 | showIndicators | Boolean (default:true) - show indicators on slider bottom. |
+| noDragWhenSingle | Boolean (default: true) - do not drag when there is only one swipe-item
 | prevent | Boolean (default:false) - preventDefault when touch start, useful for some lower version Android Browser(4.2 etc). |
+
+## Events
+
+| Event Name | Description | params |
+| ----- | ----- |
+| change | triggers when current swipe-item change | new swipe item Index, old swipe item Index |
 
 # Develop
 
