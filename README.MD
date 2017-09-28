@@ -105,7 +105,7 @@ Here list Props on swipe component
 ## Events
 
 | Event Name | Description | params |
-| ----- | ----- |
+| ----- | ----- | ----- |
 | change | triggers when current swipe-item change | new swipe item Index, old swipe item Index |
 
 # Develop
