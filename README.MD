@@ -108,6 +108,7 @@ Here list Props on swipe component
 | ----- | ----- | ----- |
 | change | triggers when current swipe-item change | new swipe item Index, old swipe item Index |
 
+you can use this.$refs.swipe.$emit('goto', index) to change swipe item.
 # Develop
 
 Coding with watching and hot-reload.

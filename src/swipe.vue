@@ -53,6 +53,7 @@
     <div class="mint-swipe-indicators" v-show="showIndicators">
       <div class="mint-swipe-indicator"
            v-for="(page, $index) in pages"
+           :key="$index"
            :class="{ 'is-active': $index === index }"></div>
     </div>
   </div>
@@ -67,6 +68,9 @@
 
     created() {
       this.dragState = {};
+      this.$on('goto', index => {
+        this.index !== index && this.goto(index);
+      });
     },
 
     data() {
@@ -75,7 +79,6 @@
         dragging: false,
         userScrolling: false,
         animating: false,
-        index: 0,
         pages: [],
         timer: null,
         reInitTimer: null,
@@ -113,6 +116,7 @@
         type: Boolean,
         default: false
       }
+
     },
 
     methods: {
@@ -193,11 +197,18 @@
         var pages = this.pages;
         var pageCount = pages.length;
 
-        if (!options) {
+        if (!options || towards === 'goto') {
+          options = options || {};
           pageWidth = this.$el.clientWidth;
           currentPage = pages[index];
-          prevPage = pages[index - 1];
-          nextPage = pages[index + 1];
+          if (towards === 'goto') {
+            prevPage = options.prevPage;
+            nextPage = options.nextPage;
+          } else {
+            prevPage = pages[index - 1];
+            nextPage = pages[index + 1];
+          }
+
           if (this.continuous && pages.length > 1) {
             if (!prevPage) {
               prevPage = pages[pages.length - 1];
@@ -240,6 +251,10 @@
           if (this.continuous && index === pageCount - 1) {
             newIndex = 0;
           }
+        } else if (towards === 'goto') {
+          if (options.newIndex > -1 && options.newIndex < pageCount) {
+            newIndex = options.newIndex;
+          }
         }
 
         var callback = () => {
@@ -273,6 +288,14 @@
             if (prevPage) {
               this.translate(prevPage, 0, speed);
             }
+          } else if (towards === 'goto') {
+            if (prevPage) {
+              this.translate(currentPage, pageWidth, speed, callback);
+              this.translate(prevPage, 0, speed);
+            } else if (nextPage) {
+              this.translate(currentPage, -pageWidth, speed, callback);
+              this.translate(nextPage, 0, speed);
+            }
           } else {
             this.translate(currentPage, 0, speed, callback);
             if (typeof offsetLeft !== 'undefined') {
@@ -300,6 +323,20 @@
 
       prev() {
         this.doAnimate('prev');
+      },
+
+      goto(newIndex) {
+        if (newIndex < this.index) {
+          this.doAnimate('goto', {
+            newIndex,
+            prevPage: this.pages[newIndex]
+          });
+        } else {
+          this.doAnimate('goto', {
+            newIndex,
+            nextPage: this.pages[newIndex]
+          });
+        }
       },
 
       doOnTouchStart(event) {

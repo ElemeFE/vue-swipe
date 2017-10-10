@@ -8,14 +8,17 @@
   
     <br>
   
-    <swipe class="my-swipe" :auto="0" :show-indicators="false" @change="changeSwipe">
+    <swipe class="my-swipe" ref="mySwipe2" :auto="0" :continuous="false" :show-indicators="false" @change="changeSwipe">
       <swipe-item class="slide1">Slide1</swipe-item>
       <swipe-item class="slide2">Slide2</swipe-item>
       <swipe-item class="slide3">Slide3</swipe-item>
     </swipe>
+
+    <button @click="goto(2)">goto page 3</button>
+    <button @click="goto(0)">goto page 1</button>
   
     <br>
-  
+    
     <swipe class="my-swipe" :speed="900" :auto="0" :show-indicators="false" :no-drag-when-single="false">
       <swipe-item class="slide1">SINGLE SLIDE</swipe-item>
     </swipe>
@@ -32,8 +35,11 @@
     },
 
     methods: {
+      goto(index) {
+        this.$refs.mySwipe2.$emit('goto', index);
+      },
       changeSwipe(newIndex, oldIndex) {
-        console.log(`swipe from ${newIndex} to ${oldIndex}`);
+        console.log(`swipe from ${oldIndex} to ${newIndex}`);
       }
     }
   };
