@@ -101,6 +101,7 @@ Here list Props on swipe component
 | showIndicators | Boolean (default:true) - show indicators on slider bottom. |
 | noDragWhenSingle | Boolean (default: true) - do not drag when there is only one swipe-item
 | prevent | Boolean (default:false) - preventDefault when touch start, useful for some lower version Android Browser(4.2 etc). |
+| disabled | Boolean (default:false) - disabled user swipe item |
 
 ## Events
 
