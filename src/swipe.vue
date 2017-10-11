@@ -79,6 +79,7 @@
         dragging: false,
         userScrolling: false,
         animating: false,
+        index: 0,
         pages: [],
         timer: null,
         reInitTimer: null,
