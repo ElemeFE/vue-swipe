@@ -115,6 +115,11 @@
       prevent: {
         type: Boolean,
         default: false
+      },
+
+      disabled: {
+        type: Boolean,
+        default: false
       }
 
     },
@@ -340,7 +345,7 @@
       },
 
       doOnTouchStart(event) {
-        if (this.noDrag) return;
+        if (this.noDrag || this.disabled) return;
 
         var element = this.$el;
         var dragState = this.dragState;
@@ -381,7 +386,7 @@
       },
 
       doOnTouchMove(event) {
-        if (this.noDrag) return;
+        if (this.noDrag || this.disabled) return;
 
         var dragState = this.dragState;
         var touch = event.touches[0];
@@ -416,7 +421,7 @@
       },
 
       doOnTouchEnd() {
-        if (this.noDrag) return;
+        if (this.noDrag || this.disabled) return;
 
         var dragState = this.dragState;
 
