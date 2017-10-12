@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Default</h1>
     <swipe class="my-swipe">
       <swipe-item class="slide1">Slide1</swipe-item>
       <swipe-item class="slide2">Slide2</swipe-item>
@@ -19,6 +20,10 @@
   
     <br>
     
+    <swipe class="my-swipe" :speed="900" :auto="0" :show-indicators="false" :no-drag-when-single="false">
+      <swipe-item class="slide1">SINGLE SLIDE</swipe-item>
+    </swipe>
+
     <swipe class="my-swipe" :speed="900" :auto="0" :show-indicators="false" :no-drag-when-single="false">
       <swipe-item class="slide1">SINGLE SLIDE</swipe-item>
     </swipe>

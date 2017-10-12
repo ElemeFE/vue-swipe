@@ -93,6 +93,16 @@
         default: 300
       },
 
+      defaultIndex: {
+        type: Number,
+        default: 0
+      },
+
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+
       auto: {
         type: Number,
         default: 3000
@@ -178,14 +188,13 @@
         this.noDrag = children.length === 1 && this.noDragWhenSingle;
 
         var pages = [];
-        this.index = 0;
-
-        children.forEach(function(child, index) {
+        this.index = this.defaultIndex;
+        children.forEach((child, index) => {
           pages.push(child.$el);
 
           removeClass(child.$el, 'is-active');
 
-          if (index === 0) {
+          if (index === this.defaultIndex) {
             addClass(child.$el, 'is-active');
           }
         });
