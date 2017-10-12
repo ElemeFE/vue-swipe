@@ -68,9 +68,6 @@
 
     created() {
       this.dragState = {};
-      this.$on('goto', index => {
-        this.index !== index && this.goto(index);
-      });
     },
 
     data() {
@@ -189,6 +186,7 @@
 
         var pages = [];
         this.index = this.defaultIndex;
+        
         children.forEach((child, index) => {
           pages.push(child.$el);
 
@@ -341,6 +339,8 @@
       },
 
       goto(newIndex) {
+        if (this.index === newIndex) return;
+
         if (newIndex < this.index) {
           this.doAnimate('goto', {
             newIndex,
@@ -359,7 +359,7 @@
 
         var element = this.$el;
         var dragState = this.dragState;
-        var touch = event.touches[0];
+        var touch = event.changedTouches ? event.changedTouches[0] : event;
 
         dragState.startTime = new Date();
         dragState.startLeft = touch.pageX;
@@ -399,7 +399,7 @@
         if (this.noDrag || this.disabled) return;
 
         var dragState = this.dragState;
-        var touch = event.touches[0];
+        var touch = event.changedTouches ? event.changedTouches[0] : event;
 
         dragState.currentLeft = touch.pageX;
         dragState.currentTop = touch.pageY;
@@ -479,6 +479,32 @@
         });
 
         this.dragState = {};
+      },
+
+      dragStartEvent(event) {
+        if (this.prevent) {
+          event.preventDefault();
+        }
+        if (this.animating) return;
+        this.dragging = true;
+        this.userScrolling = false;
+        this.doOnTouchStart(event);
+      },
+
+      dragMoveEvent(event) {
+        if (!this.dragging) return;
+        this.doOnTouchMove(event);
+      },
+
+      dragEndEvent(event) {
+        if (this.userScrolling) {
+          this.dragging = false;
+          this.dragState = {};
+          return;
+        }
+        if (!this.dragging) return;
+        this.doOnTouchEnd(event);
+        this.dragging = false;
       }
     },
 
@@ -507,32 +533,14 @@
       this.reInitPages();
 
       var element = this.$el;
-
-      element.addEventListener('touchstart', (event) => {
-        if (this.prevent) {
-          event.preventDefault();
-        }
-        if (this.animating) return;
-        this.dragging = true;
-        this.userScrolling = false;
-        this.doOnTouchStart(event);
-      });
-
-      element.addEventListener('touchmove', (event) => {
-        if (!this.dragging) return;
-        this.doOnTouchMove(event);
-      });
-
-      element.addEventListener('touchend', (event) => {
-        if (this.userScrolling) {
-          this.dragging = false;
-          this.dragState = {};
-          return;
-        }
-        if (!this.dragging) return;
-        this.doOnTouchEnd(event);
-        this.dragging = false;
-      });
+      // for mobile
+      element.addEventListener('touchstart', this.dragStartEvent);
+      element.addEventListener('touchmove', this.dragMoveEvent);
+      element.addEventListener('touchend', this.dragEndEvent);
+      // for pc
+      element.addEventListener('mousedown', this.dragStartEvent);
+      element.addEventListener('mousemove', this.dragMoveEvent);
+      element.addEventListener('mouseup', this.dragEndEvent);
     }
   };
 </script>
