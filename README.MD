@@ -96,6 +96,8 @@ Here list Props on swipe component
 | Option | Description |
 | ----- | ----- |
 | speed | Number(default: 300) speed of animation. |
+| defaultIndex |  Number(default: 0) the start swipe item index |
+| disabled | Boolean(defalut: false) disable user drag swipe item |
 | auto | Number(default: 3000) delay of auto slide. |
 | continuous | Boolean (default:true) - creates an infinite slider without endpoints |
 | showIndicators | Boolean (default:true) - show indicators on slider bottom. |
@@ -109,7 +111,9 @@ Here list Props on swipe component
 | ----- | ----- | ----- |
 | change | triggers when current swipe-item change | new swipe item Index, old swipe item Index |
 
-you can use this.$refs.swipe.$emit('goto', index) to change swipe item.
+How to change swipe?
+Just use ref and call goto method like `this.$refs.swipe.goto(newIndex)` to change swipe item, see example code.
+
 # Develop
 
 Coding with watching and hot-reload.

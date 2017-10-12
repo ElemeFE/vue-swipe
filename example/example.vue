@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Default</h1>
     <swipe class="my-swipe">
       <swipe-item class="slide1">Slide1</swipe-item>
       <swipe-item class="slide2">Slide2</swipe-item>
@@ -7,7 +8,8 @@
     </swipe>
   
     <br>
-  
+
+    <h1>Change swipe</h1>
     <swipe class="my-swipe" ref="mySwipe2" :auto="0" :continuous="false" :show-indicators="false" @change="changeSwipe">
       <swipe-item class="slide1">Slide1</swipe-item>
       <swipe-item class="slide2">Slide2</swipe-item>
@@ -18,9 +20,19 @@
     <button @click="goto(0)">goto page 1</button>
   
     <br>
-    
+
+    <h1>Drag single swipe</h1>
     <swipe class="my-swipe" :speed="900" :auto="0" :show-indicators="false" :no-drag-when-single="false">
       <swipe-item class="slide1">SINGLE SLIDE</swipe-item>
+    </swipe>
+
+    <br>
+
+    <h1>Default index</h1>
+    <swipe class="my-swipe" :defaultIndex="1" :auto="0">
+      <swipe-item class="slide1">Slide1</swipe-item>
+      <swipe-item class="slide2">Slide2</swipe-item>
+      <swipe-item class="slide3">Slide3</swipe-item>
     </swipe>
   </div>
 </template>
@@ -36,7 +48,7 @@
 
     methods: {
       goto(index) {
-        this.$refs.mySwipe2.$emit('goto', index);
+        this.$refs.mySwipe2.goto(index);
       },
       changeSwipe(newIndex, oldIndex) {
         console.log(`swipe from ${oldIndex} to ${newIndex}`);
