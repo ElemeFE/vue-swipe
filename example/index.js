@@ -1,10 +1,6 @@
-const vueSwipe = VueSwipe.Swipe;
-const vueSwipeItem = VueSwipe.SwipeItem;
+import Example from './example.vue';
 
 new Vue({
-  el: '#container',
-  components: {
-    'swipe': vueSwipe,
-    'swipe-item': vueSwipeItem
-  }
+  el: '#app',
+  render: h => h(Example)
 });

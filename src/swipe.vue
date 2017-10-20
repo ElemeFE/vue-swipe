@@ -53,6 +53,7 @@
     <div class="mint-swipe-indicators" v-show="showIndicators">
       <div class="mint-swipe-indicator"
            v-for="(page, $index) in pages"
+           :key="$index"
            :class="{ 'is-active': $index === index }"></div>
     </div>
   </div>
@@ -89,6 +90,16 @@
         default: 300
       },
 
+      defaultIndex: {
+        type: Number,
+        default: 0
+      },
+
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+
       auto: {
         type: Number,
         default: 3000
@@ -118,6 +129,7 @@
         type: Boolean,
         default: false
       }
+
     },
 
     methods: {
@@ -173,14 +185,14 @@
         this.noDrag = children.length === 1 && this.noDragWhenSingle;
 
         var pages = [];
-        this.index = 0;
-
-        children.forEach(function(child, index) {
+        this.index = this.defaultIndex;
+        
+        children.forEach((child, index) => {
           pages.push(child.$el);
 
           removeClass(child.$el, 'is-active');
 
-          if (index === 0) {
+          if (index === this.defaultIndex) {
             addClass(child.$el, 'is-active');
           }
         });
@@ -198,11 +210,18 @@
         var pages = this.pages;
         var pageCount = pages.length;
 
-        if (!options) {
+        if (!options || towards === 'goto') {
+          options = options || {};
           pageWidth = this.$el.clientWidth;
           currentPage = pages[index];
-          prevPage = pages[index - 1];
-          nextPage = pages[index + 1];
+          if (towards === 'goto') {
+            prevPage = options.prevPage;
+            nextPage = options.nextPage;
+          } else {
+            prevPage = pages[index - 1];
+            nextPage = pages[index + 1];
+          }
+
           if (this.continuous && pages.length > 1) {
             if (!prevPage) {
               prevPage = pages[pages.length - 1];
@@ -245,6 +264,10 @@
           if (this.continuous && index === pageCount - 1) {
             newIndex = 0;
           }
+        } else if (towards === 'goto') {
+          if (options.newIndex > -1 && options.newIndex < pageCount) {
+            newIndex = options.newIndex;
+          }
         }
 
         var callback = () => {
@@ -254,6 +277,8 @@
             addClass(newPage, 'is-active');
 
             this.index = newIndex;
+
+            this.$emit('change', newIndex, index);
           }
 
           if (prevPage) {
@@ -275,6 +300,14 @@
             this.translate(currentPage, pageWidth, speed, callback);
             if (prevPage) {
               this.translate(prevPage, 0, speed);
+            }
+          } else if (towards === 'goto') {
+            if (prevPage) {
+              this.translate(currentPage, pageWidth, speed, callback);
+              this.translate(prevPage, 0, speed);
+            } else if (nextPage) {
+              this.translate(currentPage, -pageWidth, speed, callback);
+              this.translate(nextPage, 0, speed);
             }
           } else {
             this.translate(currentPage, 0, speed, callback);
@@ -305,12 +338,28 @@
         this.doAnimate('prev');
       },
 
+      goto(newIndex) {
+        if (this.index === newIndex) return;
+
+        if (newIndex < this.index) {
+          this.doAnimate('goto', {
+            newIndex,
+            prevPage: this.pages[newIndex]
+          });
+        } else {
+          this.doAnimate('goto', {
+            newIndex,
+            nextPage: this.pages[newIndex]
+          });
+        }
+      },
+
       doOnTouchStart(event) {
-        if (this.noDrag) return;
+        if (this.noDrag || this.disabled) return;
 
         var element = this.$el;
         var dragState = this.dragState;
-        var touch = event.touches[0];
+        var touch = event.changedTouches ? event.changedTouches[0] : event;
 
         dragState.startTime = new Date();
         dragState.startLeft = touch.pageX;
@@ -347,10 +396,10 @@
       },
 
       doOnTouchMove(event) {
-        if (this.noDrag) return;
+        if (this.noDrag || this.disabled) return;
 
         var dragState = this.dragState;
-        var touch = event.touches[0];
+        var touch = event.changedTouches ? event.changedTouches[0] : event;
 
         dragState.currentLeft = touch.pageX;
         dragState.currentTop = touch.pageY;
@@ -382,7 +431,7 @@
       },
 
       doOnTouchEnd() {
-        if (this.noDrag) return;
+        if (this.noDrag || this.disabled) return;
 
         var dragState = this.dragState;
 
@@ -430,6 +479,32 @@
         });
 
         this.dragState = {};
+      },
+
+      dragStartEvent(event) {
+        if (this.prevent) {
+          event.preventDefault();
+        }
+        if (this.animating) return;
+        this.dragging = true;
+        this.userScrolling = false;
+        this.doOnTouchStart(event);
+      },
+
+      dragMoveEvent(event) {
+        if (!this.dragging) return;
+        this.doOnTouchMove(event);
+      },
+
+      dragEndEvent(event) {
+        if (this.userScrolling) {
+          this.dragging = false;
+          this.dragState = {};
+          return;
+        }
+        if (!this.dragging) return;
+        this.doOnTouchEnd(event);
+        this.dragging = false;
       }
     },
 
@@ -487,6 +562,14 @@
         this.doOnTouchEnd(event);
         this.dragging = false;
       });
+      // for mobile
+      element.addEventListener('touchstart', this.dragStartEvent);
+      element.addEventListener('touchmove', this.dragMoveEvent);
+      element.addEventListener('touchend', this.dragEndEvent);
+      // for pc
+      element.addEventListener('mousedown', this.dragStartEvent);
+      element.addEventListener('mousemove', this.dragMoveEvent);
+      element.addEventListener('mouseup', this.dragEndEvent);
     }
   };
 </script>

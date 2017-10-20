@@ -1,6 +1,6 @@
 {
   "name": "vue-swipe",
-  "version": "2.0.2",
+  "version": "2.2.0",
   "description": "A touch slider for vue.js.",
   "main": "dist/vue-swipe.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "vue-hot-reload-api": "^1.2.2",
     "vue-html-loader": "^1.0.0",
     "vue-loader": "10.0.2",
-    "vue-template-compiler": "^2.1.8",
+    "vue-template-compiler": "2.1.8",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0"
   },

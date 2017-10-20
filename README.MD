@@ -90,17 +90,30 @@ Work on a Vue instance:
 ```
 
 # Options
-
+## Attributes
 Here list Props on swipe component
 
 | Option | Description |
 | ----- | ----- |
 | speed | Number(default: 300) speed of animation. |
+| defaultIndex |  Number(default: 0) the start swipe item index |
+| disabled | Boolean(defalut: false) disable user drag swipe item |
 | auto | Number(default: 3000) delay of auto slide. |
 | continuous | Boolean (default:true) - creates an infinite slider without endpoints |
 | showIndicators | Boolean (default:true) - show indicators on slider bottom. |
+| noDragWhenSingle | Boolean (default: true) - do not drag when there is only one swipe-item
 | prevent | Boolean (default:false) - preventDefault when touch start, useful for some lower version Android Browser(4.2 etc). |
 | propagation | Boolean (default:false) - solve nesting. |
+| disabled | Boolean (default:false) - disabled user swipe item |
+
+## Events
+
+| Event Name | Description | params |
+| ----- | ----- | ----- |
+| change | triggers when current swipe-item change | new swipe item Index, old swipe item Index |
+
+How to change swipe?
+Just use ref and call goto method like `this.$refs.swipe.goto(newIndex)` to change swipe item, see example code.
 
 # Develop
 
