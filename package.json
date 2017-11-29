@@ -7,7 +7,8 @@
     "dev": "webpack-dev-server --config ./webpack.example.config.js --inline --hot",
     "remote-dev": "npm run dev --host",
     "build": "webpack -p",
-    "prepublish": "npm run build"
+    "release": "standard-version & git push --follow-tags eleme master & npm publish",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,10 @@
       "es2015"
     ]
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "keywords": [
     "swipe",
     "slider",
@@ -36,6 +41,7 @@
     "eslint-loader": "^1.1.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
+    "standard-version": "^4.2.0",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "vue": "2.1.8",
