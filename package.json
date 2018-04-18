@@ -16,7 +16,7 @@
   },
   "babel": {
     "presets": [
-      "es2015"
+      "env"
     ]
   },
   "files": [
