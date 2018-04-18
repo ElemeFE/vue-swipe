@@ -485,6 +485,9 @@
         if (this.prevent) {
           event.preventDefault();
         }
+        if (this.propagation) {
+          event.stopPropagation();
+        }
         if (this.animating) return;
         this.dragging = true;
         this.userScrolling = false;
@@ -534,34 +537,6 @@
 
       var element = this.$el;
 
-      element.addEventListener('touchstart', (event) => {
-        if (this.prevent) {
-          event.preventDefault();
-        }
-        if (this.propagation) {
-          event.stopPropagation();
-        }
-        if (this.animating) return;
-        this.dragging = true;
-        this.userScrolling = false;
-        this.doOnTouchStart(event);
-      });
-
-      element.addEventListener('touchmove', (event) => {
-        if (!this.dragging) return;
-        this.doOnTouchMove(event);
-      });
-
-      element.addEventListener('touchend', (event) => {
-        if (this.userScrolling) {
-          this.dragging = false;
-          this.dragState = {};
-          return;
-        }
-        if (!this.dragging) return;
-        this.doOnTouchEnd(event);
-        this.dragging = false;
-      });
       // for mobile
       element.addEventListener('touchstart', this.dragStartEvent);
       element.addEventListener('touchmove', this.dragMoveEvent);
