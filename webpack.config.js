@@ -1,16 +1,36 @@
-/*eslint-env node */
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-var options = require('./webpack.base.js');
-options.entry = './src';
-options.output = {
-  library: 'VueSwipe',
-  libraryTarget: 'umd',
-  filename: 'vue-swipe.js',
-  path: './dist'
+const { resolve } = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
+module.exports = {
+  mode: 'production',
+  entry: './src/',
+  output: {
+    library: 'VueSwipe',
+    libraryTarget: 'commonjs2',
+    filename: 'vue-swipe.js',
+    path: resolve('dist'),
+  },
+  module: {
+    rules: [
+      {
+        enforce: 'pre',
+        test: /\.(js|vue)$/,
+        loader: 'eslint-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader',
+        options: {
+          extractCSS: true
+        }
+      },
+      { test: /\.js$/,
+        loader: 'babel-loader'
+      }
+    ]
+  },
+  plugins: [
+    new ExtractTextPlugin('vue-swipe.css')
+  ]
 };
-options.externals = {
-  vue: 'Vue'
-};
-options.plugins = [new ExtractTextPlugin('vue-swipe.css')];
-options.vue.loaders.css = ExtractTextPlugin.extract('style', 'css');
-module.exports = options;
