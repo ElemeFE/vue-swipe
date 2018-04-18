@@ -1,8 +1,15 @@
-ecmaFeatures:
-  modules: true
+parserOptions:
+  sourceType: module
+
+env:
+  es6: true
+  browser: true
+
+extends:
+- 'eslint:recommended'
+- 'plugin:vue/essential'
 
 rules:
-  indent: [ 1, 2, SwitchCase: 1 ]
   quotes: [ 1, single ]
   linebreak-style: [ 1, unix ]
   semi: [ 1, always ]
@@ -12,9 +19,5 @@ rules:
   space-infix-ops: [ 1 ]
   no-multi-spaces: [ 1 ]
   no-fallthrough: [ 0 ]
-
-env:
-  es6: true
-  browser: true
-
-extends: 'eslint:recommended'
+  'vue/require-v-for-key': 'off'
+  'vue/script-indent': [ 1, 2, { baseIndent: 1 }]

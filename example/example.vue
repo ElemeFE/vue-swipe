@@ -6,7 +6,7 @@
       <swipe-item class="slide2">Slide2</swipe-item>
       <swipe-item class="slide3">Slide3</swipe-item>
     </swipe>
-  
+
     <br>
 
     <h1>Change swipe</h1>
@@ -18,7 +18,7 @@
 
     <button @click="goto(2)">goto page 3</button>
     <button @click="goto(0)">goto page 1</button>
-  
+
     <br>
 
     <h1>Drag single swipe</h1>
