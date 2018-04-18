@@ -186,7 +186,7 @@
 
         var pages = [];
         this.index = this.defaultIndex;
-        
+
         children.forEach((child, index) => {
           pages.push(child.$el);
 
