@@ -1,19 +1,20 @@
-# Overview
+# vue-swipe
 
-vue-swipe is a touch slider for vue.js.
+vue-swipe is a touch slider for Vue.js.
 
-# Install
+## Install
 
 ```bash
 $ npm install vue-swipe
 ```
 
-# Install
+## Import
 
-## Import using module
+### Import using module
+
 Import components to your project:
 
-```JavaScript
+``` js
 require('vue-swipe/dist/vue-swipe.css');
 
 // in ES6 modules
@@ -28,19 +29,19 @@ const { Swipe, SwipeItem } = VueSwipe;
 
 And register components:
 
-```javascript
+``` js
 Vue.component('swipe', Swipe);
 Vue.component('swipe-item', SwipeItem);
 ```
 
-## Import using script tag
+### Import using script tag
 
-``` HTML
+``` html
 <link rel="stylesheet" href="../node-modules/vue-swipe/dist/vue-swipe.css" charset="utf-8">
 <script src="../node-modules/vue-swipe/dist/vue-swipe.js"></script>
 ```
 
-```JavaScript
+``` js
 const vueSwipe = VueSwipe.Swipe;
 const vueSwipeItem = VueSwipe.SwipeItem;
 
@@ -53,7 +54,7 @@ new Vue({
 });
 ```
 
-# Usage
+## Usage
 
 Work on a Vue instance:
 
@@ -89,45 +90,55 @@ Work on a Vue instance:
 }
 ```
 
-# Options
-## Attributes
-Here list Props on swipe component
+## Options
 
-| Option | Description |
-| ----- | ----- |
-| speed | Number(default: 300) speed of animation. |
-| defaultIndex |  Number(default: 0) the start swipe item index |
-| disabled | Boolean(defalut: false) disable user drag swipe item |
-| auto | Number(default: 3000) delay of auto slide. |
-| continuous | Boolean (default:true) - creates an infinite slider without endpoints |
-| showIndicators | Boolean (default:true) - show indicators on slider bottom. |
-| noDragWhenSingle | Boolean (default: true) - do not drag when there is only one swipe-item
-| prevent | Boolean (default:false) - preventDefault when touch start, useful for some lower version Android Browser(4.2 etc). |
-| propagation | Boolean (default:false) - solve nesting. |
-| disabled | Boolean (default:false) - disabled user swipe item |
+### Props
 
-## Events
+| Option | Type | Description | Default |
+| ----- | ----- | ----- | ----- |
+| speed | Number | Speed of animation | 300 |
+| defaultIndex | Number | Start swipe item index | 0 |
+| disabled | Boolean | Disable user drag swipe item | false |
+| auto | Number | Delay of auto slide | 3000 |
+| continuous | Boolean | Create an infinite slider without endpoints | true |
+| showIndicators | Boolean | Show indicators on slider bottom | true |
+| noDragWhenSingle | Boolean | Do not drag when there is only one swipe-item | true |
+| prevent | Boolean | `preventDefault` when touch start, useful for some lower version Android Browser (4.2, etc) | false |
+| propagation | Boolean | solve nesting | false |
+| disabled | Boolean | disabled user swipe item | false |
+
+### Events
 
 | Event Name | Description | params |
 | ----- | ----- | ----- |
 | change | triggers when current swipe-item change | new swipe item Index, old swipe item Index |
 
-How to change swipe?
-Just use ref and call goto method like `this.$refs.swipe.goto(newIndex)` to change swipe item, see example code.
+## FAQ
 
-# Develop
+### How to programminly swipe to an item?
 
-Coding with watching and hot-reload.
+Use ref and call `goto()` method.
+
+``` js
+this.$refs.swipe.goto(newIndex)
+```
+
+For more details, please refer to example code.
+
+## Development
+
+Watching with hot-reload:
 
 ```bash
 $ npm run dev
 ```
 
-Develop on real remote device.
+Develop on real remote device:
 
 ```bash
 $ npm run remote-dev {{ YOUR IP ADDRESS }}
 ```
 
-# License
+## License
+
 MIT
