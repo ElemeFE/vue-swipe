@@ -423,11 +423,18 @@
 
         if (dragState.prevPage && towards === 'prev') {
           this.translate(dragState.prevPage, offsetLeft - dragState.pageWidth);
+        } else if (dragState.nextPage && towards === 'next') {
+          this.translate(dragState.nextPage, offsetLeft + dragState.pageWidth);
+        } else {
+          // when continuous=false and it's the end of each side,
+          // limit swipe width with quadratic-functional ease
+          // y = (-1 / dk) x (|x| - 2k)
+          const k = dragState.pageWidth;
+          const x = offsetLeft;
+          const d = 6; // scroll until 1/d of screenWidth at maximum
+          offsetLeft = -1 / d / k * x * (Math.abs(x) - 2 * k);
         }
         this.translate(dragState.dragPage, offsetLeft);
-        if (dragState.nextPage && towards === 'next') {
-          this.translate(dragState.nextPage, offsetLeft + dragState.pageWidth);
-        }
       },
 
       doOnTouchEnd() {
